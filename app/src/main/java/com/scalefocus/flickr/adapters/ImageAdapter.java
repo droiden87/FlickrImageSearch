@@ -15,8 +15,8 @@ import com.scalefocus.flickr.model.Photo;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private static final String TAG = ImageAdapter.class.getSimpleName();
-    private Photo[] imageListData;
-    private Context context;
+    private Photo[] mImageListData;
+    private Context mContext;
     private String flickrJsonResults;
 
     public void setFlickrJsonResults(String jsonStr) {
@@ -25,40 +25,35 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
+        mContext = parent.getContext();
         int layoutIdForListItem = R.layout.image_list_item;
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         return new ImageViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(ImageViewHolder holder, final int position) {
-
-        String ImageURL = imageListData[position].getThumbnailURL();
-
-      //new ImageDownloaderTask(holder.mImageViewItem).execute(ImageURL);
-        Glide.with(context)
+        String ImageURL = mImageListData[position].getThumbnailURL();
+        Glide.with(mContext)
                 .load(ImageURL)
                 .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.mImageViewItem);
-
     }
 
     @Override
     public int getItemCount() {
-        if (null == imageListData) return 0;
-        return imageListData.length;
+        if (null == mImageListData) return 0;
+        return mImageListData.length;
     }
 
     public void setImageListData(Photo[] imageListData) {
-        imageListData = imageListData;
+        mImageListData = imageListData;
         notifyDataSetChanged();
     }
 
     public void clear() {
-        imageListData = null;
+        mImageListData = null;
         notifyDataSetChanged();
     }
 
@@ -67,11 +62,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-
             mImageViewItem = itemView.findViewById(R.id.iv_image_item);
         }
 
     }
-
 
 }
