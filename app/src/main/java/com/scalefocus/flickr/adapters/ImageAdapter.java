@@ -8,9 +8,10 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.scalefocus.flickr.R;
 import com.scalefocus.flickr.model.Photo;
-import com.scalefocus.flickr.network.ImageDownloaderTask;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private static final String TAG = ImageAdapter.class.getSimpleName();
@@ -36,7 +37,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         String ImageURL = imageListData[position].getThumbnailURL();
 
-      new ImageDownloaderTask(holder.mImageViewItem).execute(ImageURL);
+      //new ImageDownloaderTask(holder.mImageViewItem).execute(ImageURL);
+        Glide.with(context)
+                .load(ImageURL)
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.mImageViewItem);
 
     }
 
